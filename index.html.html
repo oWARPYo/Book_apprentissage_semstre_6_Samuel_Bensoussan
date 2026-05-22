@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book d'Apprentissage — Semestre 6 | Samuel Bensoussan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg: #0f0f0f;
+            --bg2: #313131;
+            --bg3: #565656;
+            --white: #efefef;
+            --white-dim: #a0a0a0;
+            --red: #d63030;
+            --red-dim: rgba(214, 48, 48, 0.18);
+            --border: #272727;
+            --border2: #333;
+        }
+        
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            line-height: 1.75;
+            overflow-x: hidden;
+        }
+        /* ─── ANIMATED WAVE SVG (background deco) ─── */
+        
+        .wave-bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .wave-bg svg {
+            position: absolute;
+            width: 120%;
+            opacity: 0.055;
+            animation: waveDrift 18s ease-in-out infinite alternate;
+        }
+        
+        .wave-bg svg:nth-child(2) {
+            animation-delay: -6s;
+            opacity: 0.03;
+            bottom: 0;
+            top: auto;
+            transform: scaleX(-1);
+        }
+        
+        @keyframes waveDrift {
+            from {
+                transform: translateX(-3%) translateY(0);
+            }
+            to {
+                transform: translateX(3%) translateY(-4%);
+            }
+        }
+        /* ─── NAV DOTS ─── */
+        
+        .nav-dots {
+            position: fixed;
+            right: 1.6rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            z-index: 200;
+        }
+        
+        .nav-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #444;
+            cursor: pointer;
+            transition: background 0.25s, transform 0.25s;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .nav-dot:hover,
+        .nav-dot.active {
+            background: var(--white);
+            transform: scale(1.8);
+        }
+        
+        .nav-dot.active {
+            background: var(--red);
+            transform: scale(2);
+        }
+        /* ─── COVER ─── */
+        
+        .cover {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 10vw 8vh;
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        .cover-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--white-dim);
+            margin-bottom: 1.8rem;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 0.3s;
+        }
+        
+        .cover-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(5.5rem, 16vw, 16rem);
+            line-height: 0.88;
+            letter-spacing: 0.01em;
+            opacity: 0;
+            animation: fadeUp 0.9s ease forwards 0.5s;
+        }
+        
+        .cover-title .red {
+            color: var(--red);
+        }
+        
+        .cover-rule {
+            width: 100%;
+            height: 1px;
+            background: var(--border2);
+            margin: 2.5rem 0;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 0.8s;
+        }
+        
+        .cover-meta {
+            display: flex;
+            gap: 4rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 1s;
+        }
+        
+        .cover-meta-item label {
+            display: block;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--white-dim);
+            margin-bottom: 0.25rem;
+        }
+        
+        .cover-meta-item span {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        /* big muted "S6" */
+        
+        .cover-s6 {
+            position: absolute;
+            right: 6vw;
+            bottom: -2rem;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(12rem, 30vw, 28rem);
+            line-height: 1;
+            color: #fff;
+            opacity: 0.025;
+            pointer-events: none;
+            user-select: none;
+        }
+        /* ─── SECTION BASE ─── */
+        
+        section {
+            position: relative;
+            padding: 100px 10vw;
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        section.alt {
+            background: var(--bg2);
+        }
+        
+        .eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .eyebrow::after {
+            content: '';
+            display: inline-block;
+            width: 40px;
+            height: 1px;
+            background: var(--red);
+            opacity: 0.5;
+        }
+        
+        .sec-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 7vw, 7rem);
+            line-height: 0.9;
+            margin-bottom: 3rem;
+        }
+        
+        .sec-title .red {
+            color: var(--red);
+        }
+        /* ─── SOMMAIRE ─── */
+        
+        .sum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-top: 2.5rem;
+        }
+        
+        .sum-item {
+            background: var(--bg1);
+            padding: 1.8rem 2rem;
+            text-decoration: none;
+            color: var(--white);
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+            transition: background 0.2s;
+        }
+        
+        .sum-item:hover {
+            background: var(--bg3);
+        }
+        
+        .sum-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8rem;
+            color: var(--red);
+            opacity: 0.5;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        
+        .sum-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        
+        .sum-sub {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--white-dim);
+            letter-spacing: 0.04em;
+        }
+        /* ─── BODY TEXT ─── */
+        
+        .body-text {
+            font-size: 0.96rem;
+            line-height: 1.85;
+            color: #c0c0c0;
+            max-width: 660px;
+        }
+        
+        .body-text+.body-text {
+            margin-top: 1.2rem;
+        }
+        
+        strong {
+            color: var(--white);
+            font-weight: 600;
+        }
+        /* ─── TWO COL ─── */
+        
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: start;
+        }
+        
+        @media(max-width:860px) {
+            .two-col {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+        /* ─── IMAGE PLACEHOLDER ─── */
+        
+        .img-ph {
+            background: var(--bg3);
+            border: 1px dashed var(--border2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            color: white;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 1rem;
+            min-height: 220px;
+            transition: border-color 0.2s;
+        }
+        
+        .img-ph img {
+            width: 600px;
+        }
+        
+        .img-ph:hover {
+            border-color: #555;
+        }
+        
+        .img-ph svg {
+            opacity: 0.25;
+        }
+        
+        .img-ph-sub {
+            opacity: 0.5;
+            font-size: 0.58rem;
+        }
+        /* ─── HIGHLIGHT CARD ─── */
+        
+        .hl-card {
+            border-left: 2px solid var(--red);
+            background: var(--bg3);
+            padding: 2.2rem 2.5rem;
+            margin: 2.5rem 0;
+        }
+        
+        .hl-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 0.06em;
+            color: var(--red);
+            margin-bottom: 0.8rem;
+        }
+        
+        .hl-card p {
+            font-size: 0.92rem;
+            color: #b0b0b0;
+            line-height: 1.8;
+        }
+        /* ─── SEPARATOR ─── */
+        
+        .sep {
+            width: 36px;
+            height: 2px;
+            background: var(--red);
+            opacity: 0.55;
+            margin: 2rem 0;
+        }
+        /* ─── TIMELINE ─── */
+        
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-top: 2rem;
+        }
+        
+        .tl-item {
+            display: flex;
+            gap: 1.5rem;
+            padding-bottom: 2.4rem;
+        }
+        
+        .tl-item:last-child {
+            padding-bottom: 0;
+        }
+        
+        .tl-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 24px;
+        }
+        
+        .tl-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--red);
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+        
+        .tl-line {
+            flex: 1;
+            width: 1px;
+            background: var(--border2);
+            margin-top: 4px;
+        }
+        
+        .tl-item:last-child .tl-line {
+            display: none;
+        }
+        
+        .tl-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--red);
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        
+        .tl-content h4 {
+            font-weight: 600;
+            font-size: 0.92rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .tl-content p {
+            font-size: 0.83rem;
+            color: #b7b7b7;
+            line-height: 1.65;
+        }
+        /* ─── COMPETENCE CARDS ─── */
+        
+        .comp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-top: 2.5rem;
+        }
+        
+        .comp-card {
+            background: var(--bg);
+            padding: 2.2rem;
+            position: relative;
+            transition: background 0.2s;
+            border-top: 2px solid var(--red);
+        }
+        
+        .comp-card:hover {
+            background: var(--bg3);
+        }
+        
+        .comp-ghost {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5rem;
+            color: var(--white);
+            opacity: 0.04;
+            position: absolute;
+            top: 0.2rem;
+            right: 1rem;
+            line-height: 1;
+            pointer-events: none;
+        }
+        
+        .comp-badge {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--red);
+            border: 1px solid rgba(214, 48, 48, 0.4);
+            padding: 0.18rem 0.5rem;
+            display: inline-block;
+            margin-bottom: 0.7rem;
+        }
+        
+        .comp-card h4 {
+            font-weight: 700;
+            font-size: 0.92rem;
+            margin-bottom: 0.6rem;
+        }
+        
+        .comp-card p {
+            font-size: 0.84rem;
+            color: #999;
+            line-height: 1.7;
+        }
+        
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 1rem;
+        }
+        
+        .chip {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.06em;
+            background: #1e1e1e;
+            border: 1px solid var(--border2);
+            padding: 0.22rem 0.55rem;
+            color: #888;
+        }
+        
+        .chip.r {
+            border-color: rgba(214, 48, 48, 0.45);
+            color: #c06060;
+            background: var(--red-dim);
+        }
+        /* ─── TAGS ─── */
+        
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.63rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: 1px solid var(--border2);
+            padding: 0.25rem 0.7rem;
+            color: var(--white-dim);
+        }
+        
+        .tag.r {
+            border-color: rgba(214, 48, 48, 0.5);
+            color: #c06060;
+        }
+        /* ─── INTERNATIONAL BANNER ─── */
+        
+        .intl-banner {
+            background: var(--red);
+            color: #fff;
+            padding: 2.8rem 10vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .intl-banner::before {
+            content: 'ESPAÑA';
+            position: absolute;
+            right: 5vw;
+            top: 50%;
+            transform: translateY(-40%);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(6rem, 18vw, 10rem);
+            opacity: 0.1;
+            pointer-events: none;
+            line-height: 1;
+            white-space: nowrap;
+        }
+        
+        .intl-banner h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2rem;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.2rem;
+        }
+        
+        .intl-banner p {
+            font-size: 0.88rem;
+            opacity: 0.8;
+        }
+        
+        .intl-pill {
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            padding: 0.5rem 1.1rem;
+            white-space: nowrap;
+        }
+        /* ─── PRO PROJECT ─── */
+        
+        .big-quote {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+            line-height: 1.15;
+            border-left: 2px solid var(--red);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            color: var(--white);
+        }
+        
+        .pro-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-top: 2rem;
+            border: 1px solid var(--border);
+        }
+        
+        .pro-link-item {
+            padding: 1.4rem 1.8rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+            background: var(--bg);
+            transition: background 0.2s;
+        }
+        
+        .pro-link-item:last-child {
+            border-bottom: none;
+        }
+        
+        .pro-link-item:hover {
+            background: var(--bg3);
+        }
+        
+        .pro-link-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: var(--red);
+            opacity: 0.4;
+            line-height: 1;
+            min-width: 2rem;
+        }
+        
+        .pro-link-item h4 {
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        
+        .pro-link-item p {
+            font-size: 0.8rem;
+            color: #888;
+            line-height: 1.6;
+        }
+        /* ─── FOOTER ─── */
+        
+        footer {
+            padding: 3.5rem 10vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 0.08em;
+        }
+        
+        .footer-logo img {
+            height: 6rem;
+        }
+        
+        .footer-logo span {
+            color: var(--red);
+        }
+        
+        footer p {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: white;
+        }
+        /* ─── ANIMATIONS ─── */
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(28px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+        
+        .reveal.vis {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .reveal-delay {
+            transition-delay: 0.12s;
+        }
+        
+        .reveal-delay2 {
+            transition-delay: 0.24s;
+        }
+        
+         ::-webkit-scrollbar {
+            width: 3px;
+        }
+        
+         ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV DOTS -->
+    <nav class="nav-dots" aria-label="Navigation sections">
+        <a class="nav-dot" href="#cover" title="Couverture"></a>
+        <a class="nav-dot" href="#sommaire" title="Sommaire"></a>
+        <a class="nav-dot" href="#mission" title="Mission marquante"></a>
+        <a class="nav-dot" href="#comp-ent" title="Compétences entreprise"></a>
+        <a class="nav-dot" href="#ecole" title="École"></a>
+        <a class="nav-dot" href="#comp-ecole" title="Compétences école"></a>
+        <a class="nav-dot" href="#projet-pro" title="Projet professionnel"></a>
+    </nav>
+
+    <!-- ══════════════════════════════════════
+     COVER
+══════════════════════════════════════ -->
+    <div class="cover" id="cover">
+        <!-- wave background -->
+        <div class="wave-bg">
+            <svg viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="top:0">
+      <path fill="white" d="M0,160 C240,260 480,60 720,160 C960,260 1200,60 1440,160 L1440,0 L0,0 Z"/>
+      <path fill="white" d="M0,200 C300,320 600,80 900,200 C1100,280 1300,100 1440,180 L1440,320 L0,320 Z" opacity="0.4"/>
+    </svg>
+            <svg viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="bottom:0;top:auto">
+      <path fill="white" d="M0,100 C360,220 720,20 1080,120 C1260,170 1380,80 1440,100 L1440,320 L0,320 Z"/>
+    </svg>
+        </div>
+
+        <div class="cover-eyebrow">CGI — Polytech Nantes &nbsp;·&nbsp; Ingénierie des Données et de l'IA &nbsp;·&nbsp; Semestre 6</div>
+
+        <h1 class="cover-title">
+            BOOK<br> <span class="red">APPRENTISSAGE</span> <br> SEMESTRE 6
+        </h1>
+
+        <div class="cover-rule"></div>
+
+        <div class="cover-meta">
+            <div class="cover-meta-item">
+                <label>Apprenti</label>
+                <span>Samuel Bensoussan</span>
+            </div>
+            <div class="cover-meta-item">
+                <label>Entreprise</label>
+                <span>CGI · La Poste</span>
+            </div>
+            <div class="cover-meta-item">
+                <label>Semestre</label>
+                <span>6 (2026)</span>
+            </div>
+        </div>
+
+        <div class="cover-s6" aria-hidden="true">S6</div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     SOMMAIRE
+══════════════════════════════════════ -->
+    <section class="alt" id="sommaire">
+        <div class="eyebrow">00 · Sommaire</div>
+        <h2 class="sec-title">Ce que<br>contient<br>ce <span class="red">book</span></h2>
+        <div class="sum-grid">
+            <a class="sum-item" href="#mission">
+                <div class="sum-num">01</div>
+                <div>
+                    <div class="sum-label">Mission marquante</div>
+                    <div class="sum-sub">Correction d'anomalies &amp; développement Java</div>
+                </div>
+            </a>
+            <a class="sum-item" href="#comp-ent">
+                <div class="sum-num">02</div>
+                <div>
+                    <div class="sum-label">Compétences entreprise</div>
+                    <div class="sum-sub">Compétences 1 · 3 · 17</div>
+                </div>
+            </a>
+            <a class="sum-item" href="#ecole">
+                <div class="sum-num">03</div>
+                <div>
+                    <div class="sum-label">Point marquant école</div>
+                    <div class="sum-sub">Réseaux &amp; systèmes distribués</div>
+                </div>
+            </a>
+            <a class="sum-item" href="#comp-ecole">
+                <div class="sum-num">04</div>
+                <div>
+                    <div class="sum-label">Compétences école</div>
+                    <div class="sum-sub">Compétences 2 · 4</div>
+                </div>
+            </a>
+            <a class="sum-item" href="#projet-pro">
+                <div class="sum-num">05</div>
+                <div>
+                    <div class="sum-label">Projet professionnel</div>
+                    <div class="sum-sub">Compétences, goûts &amp; mobilité internationale</div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+     MISSION MARQUANTE
+══════════════════════════════════════ -->
+    <section id="mission">
+        <div class="wave-bg">
+            <svg viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="bottom:0;top:auto">
+      <path fill="white" d="M0,200 C400,320 900,100 1440,220 L1440,320 L0,320 Z"/>
+    </svg>
+        </div>
+
+        <div class="eyebrow">01 · Activités entreprise</div>
+        <h2 class="sec-title">Mission<br><span class="red">marquante</span></h2>
+
+        <div class="two-col">
+            <div>
+                <p class="body-text reveal">
+                    Ce semestre 6 s'est déroulé avec <strong>4 semaines effectives en entreprise</strong>, les semaines restantes ayant été prises en congés.
+                </p>
+                <div class="sep"></div>
+                <p class="body-text reveal">
+                    Ma mission principale a porté sur la <strong>correction d'anomalies</strong> et plusieurs <strong>développements en Java</strong> au sein de l'application Affranchissement. Ce type de mission, au cœur du quotidien d'un développeur
+                    en milieu professionnel, exige autant de rigueur analytique que de maîtrise technique.
+                </p>
+                <p class="body-text reveal" style="margin-top:1.2rem">
+                    Corriger une anomalie demande de comprendre un système existant en profondeur : identifier précisément la source du problème, produire un correctif qui ne crée pas de régressions, et le valider rigoureusement avant toute mise en production. C'est un exercice
+                    formateur qui développe une vision globale de l'application.
+                </p>
+            </div>
+
+            <div class="reveal reveal-delay">
+                <!-- IMAGE : capture d'écran IDE ou ticket -->
+                <div class="img-ph" style="min-height:260px">
+                    <span><img src="https://media.ouest-france.fr/v1/pictures/MjAyNTAxODg5ZjZjMGExYWY1ZTFmNzJkZmRiYWY1YTYwNDliYjk?width=1260&height=708&focuspoint=50%2C25&cropresize=1&client_id=bpeditorial&sign=f45954061d1cf730e2165df2376d8eb9b06af072ccfa582515e6d158d729d1eb"></span>
+                    <span class="img-ph-sub">Agence CGI de Nantes</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hl-card reveal" style="margin-top:3rem">
+            <h3>Correction d'anomalies &amp; développement Java</h3>
+            <p>
+                Les anomalies traitées portent sur des comportements inattendus de l'application de tarification postale. Chaque correctif implique une phase d'<strong>analyse</strong> (lecture de logs, reproduction locale), une phase de <strong>développement Java</strong>                (modification de la logique métier), puis une phase de <strong>tests et validation</strong> avant soumission à la chaîne d'intégration continue.
+            </p>
+        </div>
+
+        <!-- timeline -->
+        <div class="timeline" style="margin-top:3rem">
+            <div class="tl-item reveal">
+                <div class="tl-left">
+                    <div class="tl-dot"></div>
+                    <div class="tl-line"></div>
+                </div>
+                <div class="tl-content">
+                    <span class="tl-label">Étape 1</span>
+                    <h4>Analyse &amp; reproduction du bug</h4>
+                    <p>Lecture des logs applicatifs, identification du comportement anormal, reproduction en environnement local pour isoler la cause racine.</p>
+                </div>
+            </div>
+            <div class="tl-item reveal">
+                <div class="tl-left">
+                    <div class="tl-dot"></div>
+                    <div class="tl-line"></div>
+                </div>
+                <div class="tl-content">
+                    <span class="tl-label">Étape 2</span>
+                    <h4>Développement du correctif en Java</h4>
+                    <p>Modification ciblée de la logique métier, en veillant à ne pas introduire de régressions sur les fonctionnalités existantes.</p>
+                </div>
+            </div>
+            <div class="tl-item reveal">
+                <div class="tl-left">
+                    <div class="tl-dot"></div>
+                    <div class="tl-line"></div>
+                </div>
+                <div class="tl-content">
+                    <span class="tl-label">Étape 3</span>
+                    <h4>Tests &amp; validation</h4>
+                    <p>Mise à jour des tests automatisés, exécution de la suite de tests, vérification fonctionnelle avant soumission à l'équipe.</p>
+                </div>
+            </div>
+            <div class="tl-item reveal">
+                <div class="tl-left">
+                    <div class="tl-dot"></div>
+                    <div class="tl-line"></div>
+                </div>
+                <div class="tl-content">
+                    <span class="tl-label">Étape 4</span>
+                    <h4>Intégration &amp; déploiement</h4>
+                    <p>Passage par la chaîne CI/CD, revue de code avec l'équipe et validation finale avant mise en production.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+     COMPÉTENCES ENTREPRISE
+══════════════════════════════════════ -->
+    <section class="alt" id="comp-ent">
+        <div class="eyebrow">02 · Compétences sollicitées</div>
+        <h2 class="sec-title">Compétences<br><span class="red">entreprise</span></h2>
+
+        <p class="body-text reveal">
+            La correction d'anomalies et les développements Java de ce semestre ont mobilisé trois compétences clés de la grille, détaillées ci-dessous.
+        </p>
+
+        <div class="comp-grid">
+            <div class="comp-card reveal">
+                <div class="comp-ghost">1</div>
+                <div class="comp-badge">Compétence 1</div>
+                <h4>Construire du logiciel</h4>
+                <p>La correction d'anomalies Java est un exercice de construction logicielle de qualité : concevoir un correctif propre, le tester, l'intégrer et le déployer via la chaîne CI/CD. Cette mission m'a permis de progresser en <strong>autonomie</strong>                    et en rigueur, produisant du code plus fiable et plus rapidement qu'au semestre précédent.</p>
+                <div class="chip-row">
+                    <span class="chip r">Java</span>
+                    <span class="chip">CI/CD</span>
+                    <span class="chip">Tests</span>
+                    <span class="chip">Git</span>
+                </div>
+            </div>
+            <div class="comp-card reveal reveal-delay">
+                <div class="comp-ghost">3</div>
+                <div class="comp-badge">Compétence 3</div>
+                <h4>Analyse de données &amp; IA</h4>
+                <p>Le diagnostic d'anomalies repose sur une <strong>lecture critique des logs</strong> et des données applicatives : identifier des patterns d'erreur, interpréter des résultats inattendus, argumenter les choix de correction. Cette compétence,
+                    déjà mobilisée lors de la mission Kibana au S5, s'ancre davantage dans le quotidien du débogage.</p>
+                <div class="chip-row">
+                    <span class="chip r">Analyse de logs</span>
+                    <span class="chip">Elasticsearch</span>
+                    <span class="chip">Regard critique</span>
+                </div>
+            </div>
+            <div class="comp-card reveal reveal-delay2">
+                <div class="comp-ghost">17</div>
+                <div class="comp-badge">Compétence 17</div>
+                <h4>Se former avec initiative</h4>
+                <p>Chaque anomalie est un cas unique qui peut nécessiter d'explorer des APIs ou des configurations inconnues. Ce semestre a renforcé ma capacité à <strong>identifier rapidement la bonne source d'information</strong>, à doser le temps investi
+                    en auto-formation, et à justifier les choix techniques devant l'équipe.</p>
+                <div class="chip-row">
+                    <span class="chip r">Autonomie</span>
+                    <span class="chip">Documentation</span>
+                    <span class="chip">Veille</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- IMAGE placeholder>
+        <div style="margin-top:3rem" class="reveal">
+            <div class="img-ph" style="min-height:200px">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                <span>Ajouter une image ici</span>
+                <span class="img-ph-sub">ex : schéma CI/CD, diagramme de classe ou capture de code</span>
+            </div>
+        </div>  -->
+    </section>
+
+    <!-- ══════════════════════════════════════
+     POINT MARQUANT ÉCOLE
+══════════════════════════════════════ -->
+    <section id="ecole">
+        <div class="wave-bg">
+            <svg viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="top:0">
+      <path fill="white" d="M0,80 C360,180 720,0 1080,100 C1260,150 1380,60 1440,80 L1440,0 L0,0 Z"/>
+    </svg>
+        </div>
+
+        <div class="eyebrow">03 · Retour sur la période école</div>
+        <h2 class="sec-title">L'<span class="red">école</span><br>ce semestre</h2>
+
+        <div class="two-col">
+            <div>
+                <p class="body-text reveal">
+                    Si le semestre 5 avait été marqué par une ouverture à la théorie et au projet PolyHash, le semestre 6 m'a confronté à un domaine que je ne pratiquais pas du tout jusqu'ici : <strong>les réseaux et les systèmes distribués</strong>.
+                </p>
+                <div class="sep"></div>
+                <p class="body-text reveal">
+                    Développeur de formation, mon univers s'arrêtait naturellement à la couche applicative. Mais comment ce code <em>circule-t-il</em> à travers une infrastructure ? Comment des systèmes indépendants communiquent-ils de façon fiable et
+                    scalable ? Ce sont ces questions que les cours de réseau et de systèmes d'information ont commencé à éclairer.
+                </p>
+                <p class="body-text reveal" style="margin-top:1.2rem">
+                    Nous avons abordé la <strong>conception de systèmes d'information</strong> et de <strong>systèmes distribués</strong>, avec notamment l'étude des protocoles, des architectures et des enjeux de cohérence des données. C'est une rupture
+                    stimulante qui demande de penser différemment : non plus ligne par ligne, mais à l'échelle d'un système entier.
+                </p>
+
+                <div class="tag-row" style="margin-top:2rem">
+                    <span class="tag r">Réseaux</span>
+                    <span class="tag r">Systèmes distribués</span>
+                    <span class="tag">Protocoles</span>
+                    <span class="tag">Architecture SI</span>
+                    <span class="tag">Cohérence des données</span>
+                    <span class="tag">Infrastructure</span>
+                </div>
+            </div>
+
+            <div class="reveal reveal-delay">
+                <!-- IMAGE placeholder -->
+                <div class="img-ph" style="min-height:260px">
+                    <span><img src = "https://polytech.univ-nantes.fr/medias/photo/70064d1d91d89d33e346c989d72ee7eb_1708437377900-jpg"></span>
+                    <span class="img-ph-sub">Polytech Nantes</span>
+                </div>
+
+                <div class="hl-card" style="margin-top:1.5rem">
+                    <h3>Ce que ce domaine m'apporte</h3>
+                    <p>Comprendre l'infrastructure me permet d'être un meilleur développeur applicatif : je peux raisonner sur les <strong>impacts réseau de mes choix de code</strong>, mieux interpréter les erreurs de communication entre services, et contribuer
+                        aux discussions architecturales de l'équipe chez CGI.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+     COMPÉTENCES ÉCOLE
+══════════════════════════════════════ -->
+    <section class="alt" id="comp-ecole">
+        <div class="eyebrow">04 · Compétences sollicitées</div>
+        <h2 class="sec-title">Compétences<br><span class="red">école</span></h2>
+
+        <p class="body-text reveal">
+            La découverte des réseaux et des systèmes d'information a mobilisé deux compétences de la grille, complémentaires à mes acquis de développeur.
+        </p>
+
+        <div class="comp-grid" style="grid-template-columns: repeat(auto-fit, minmax(310px,1fr))">
+            <div class="comp-card reveal">
+                <div class="comp-ghost">4</div>
+                <div class="comp-badge">Compétence 4</div>
+                <h4>Compétences « infrastructure »</h4>
+                <p>Les cours de réseau et de systèmes distribués m'ont initié à des notions fondamentales d'infrastructure : protocoles de communication, architecture client-serveur, sécurité et systèmes distribués. C'est une compétence absente de mon parcours
+                    BUT, très orienté développement applicatif. Cette ouverture élargit significativement mon profil d'ingénieur.</p>
+                <div class="chip-row">
+                    <span class="chip r">Réseaux</span>
+                    <span class="chip r">Systèmes distribués</span>
+                    <span class="chip">Sécurité</span>
+                    <span class="chip">Cloud</span>
+                </div>
+            </div>
+            <div class="comp-card reveal reveal-delay">
+                <div class="comp-ghost">2</div>
+                <div class="comp-badge">Compétence 2</div>
+                <h4>Modéliser un système d'information</h4>
+                <p>La conception de systèmes d'information implique de modéliser des données complexes, construire des requêtes et faire des choix architecturaux justifiés. Ce semestre m'a permis d'aborder ces questions sous un angle plus théorique et rigoureux,
+                    complémentaire à ma pratique quotidienne chez CGI.</p>
+                <div class="chip-row">
+                    <span class="chip r">Modélisation SI</span>
+                    <span class="chip">Architecture données</span>
+                    <span class="chip">Choix technologiques</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+     BANNIÈRE INTERNATIONALE
+══════════════════════════════════════ -->
+    <div class="intl-banner" id="international">
+        <div>
+            <h3>Mobilité internationale · Espagne</h3>
+            <p>À partir du 8 juin — une dimension humaine et globale pour clore ce semestre</p>
+        </div>
+        <div class="intl-pill">Compétence transversale</div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     PROJET PROFESSIONNEL
+══════════════════════════════════════ -->
+    <section id="projet-pro">
+        <div class="wave-bg">
+            <svg viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="bottom:0;top:auto">
+      <path fill="white" d="M0,220 C480,340 960,120 1440,240 L1440,320 L0,320 Z"/>
+    </svg>
+        </div>
+
+        <div class="eyebrow">05 · Projet professionnel</div>
+        <h2 class="sec-title">Bases du projet<br><span class="red">professionnel</span></h2>
+
+        <div class="two-col">
+            <div>
+                <p class="body-text reveal">
+                    Au fil de ces deux semestres à Polytech et de mes expériences en entreprise, un profil se dessine clairement. Ce semestre 6 en est une confirmation : je suis attiré par les missions <strong>techniques et polyvalentes</strong>, où la
+                    compréhension du système dans son ensemble est aussi importante que la maîtrise du code.
+                </p>
+
+                <div class="big-quote reveal">
+                    « Pas seulement coder une solution — concevoir un système cohérent, optimisé et responsable. »
+                </div>
+
+                <p class="body-text reveal">
+                    Ce semestre a été particulièrement enrichissant sur le plan technique. Les missions de correction d'anomalies Java m'ont permis de renforcer ma rigueur et mon autonomie dans la construction logicielle, deux aspects qui me plaisent profondément : j'apprécie
+                    le fait de devoir analyser un système en profondeur avant d'agir, plutôt que de produire du code en surface. De même, la découverte des réseaux et des systèmes distribués à l'école a éveillé ma curiosité pour un domaine que je ne connaissais
+                    pas, et qui donne du sens à mon travail quotidien de développeur : comprendre <em>comment</em> les systèmes que je code s'inscrivent dans une infrastructure plus large est une satisfaction intellectuelle réelle.
+                    Ces deux dimensions — maîtrise technique et compréhension systémique — rejoignent naturellement ma formation en Ingénierie des Données et de l'IA, et orientent mon projet professionnel vers un profil d'ingénieur <strong>fullstack orienté data</strong>,
+                    capable d'intervenir aussi bien sur le code que sur l'architecture des données.
+                </p>
+
+                <div class="sep"></div>
+
+                <p class="body-text reveal">
+                    Ce semestre purement technique se conclura par une dimension plus humaine avec ma <strong>mobilité internationale en Espagne</strong> à partir du 8 juin, qui viendra compléter ce profil en développant ma capacité d'adaptation et mon
+                    ouverture à des environnements professionnels variés.
+                </p>
+            </div>
+
+            <div>
+                <!-- IMAGE placeholder -->
+                <div class="img-ph reveal reveal-delay" style="min-height:260px">
+                    <span><img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHNFL4KuxWRVbyMPiSwPh6A2AKY7AloqhuL1wxVVyHXTGlXw4RBSy7BgzAfkqOaKHX2js8l6n8s_2JjqjOrOmXfnZ19eS3AKwML-Da1XdCZ_yZ_QW_cOy0AybnEnaDKdsxZ6w=s1360-w1360-h1020-rw"></span>
+                    <span class="img-ph-sub">Agence CGI de Madrid</span>
+                </div>
+
+                <div class="pro-links reveal" style="margin-top:1.5rem">
+                    <div class="pro-link-item">
+                        <div class="pro-link-num">C1</div>
+                        <div>
+                            <h4>Construction logicielle → goût pour la rigueur</h4>
+                            <p>Autonomie croissante, qualité du code, profondeur d'analyse avant correction.</p>
+                        </div>
+                    </div>
+                    <div class="pro-link-item">
+                        <div class="pro-link-num">C3</div>
+                        <div>
+                            <h4>Analyse de données → attrait pour la donnée</h4>
+                            <p>Transformer des données brutes en information utile : technique et créatif à la fois.</p>
+                        </div>
+                    </div>
+                    <div class="pro-link-item">
+                        <div class="pro-link-num">C4</div>
+                        <div>
+                            <h4>Infrastructure → vision système</h4>
+                            <p>Comprendre au-delà du code applicatif, donner du sens à l'architecture globale.</p>
+                        </div>
+                    </div>
+                    <div class="pro-link-item">
+                        <div class="pro-link-num">C17</div>
+                        <div>
+                            <h4>Auto-formation → curiosité &amp; initiative</h4>
+                            <p>Apprendre de façon autonome et ciblée, choisir les bonnes sources, doser l'effort.</p>
+                        </div>
+                    </div>
+                    <div class="pro-link-item" style="border-bottom:none">
+                        <div class="pro-link-num" style="color:var(--white-dim)">🌍</div>
+                        <div>
+                            <h4>Mobilité internationale → adaptabilité</h4>
+                            <p>S'adapter, communiquer, évoluer dans un contexte professionnel nouveau et multiculturel.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+    <footer>
+        <div class="footer-logo"><img src="https://media.discordapp.net/attachments/878757363711107162/1507296711658311760/CGI_x_Polytech_Nantes.png?ex=6a1162f4&is=6a101174&hm=6e91d880ce281068881b2ff52106adad6b5af6943f95af22dd2b29133e7858a3&=&format=webp&quality=lossless&width=1860&height=465"></div>
+        <p>Samuel Bensoussan · Book d'apprentissage S6 · 2026</p>
+        <p>Suite au semestre 7 →</p>
+    </footer>
+
+    <script>
+        // Reveal on scroll
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('vis');
+                    obs.unobserve(e.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+        // Nav dots active state
+        const dotMap = {
+            'cover': 0,
+            'sommaire': 1,
+            'mission': 2,
+            'comp-ent': 3,
+            'ecole': 4,
+            'comp-ecole': 5,
+            'projet-pro': 6
+        };
+        const dots = document.querySelectorAll('.nav-dot');
+        const secObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting && dotMap[e.target.id] !== undefined) {
+                    dots.forEach(d => d.classList.remove('active'));
+                    const d = dots[dotMap[e.target.id]];
+                    if (d) d.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.4
+        });
+        ['cover', 'sommaire', 'mission', 'comp-ent', 'ecole', 'comp-ecole', 'projet-pro']
+        .forEach(id => {
+            const el = document.getElementById(id);
+            if (el) secObs.observe(el);
+        });
+    </script>
+</body>
+
+</html>
